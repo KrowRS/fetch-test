@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Users from "./Test";
+import React, { useState, useEffect } from "react";
+const collect = require("collect.js");
+const getURL = "https://jsonplaceholder.typicode.com/users";
+const axios = require("axios").default;
 
-function App() {
+const GetUsers = () => {
+  const [users, setUsers] = useState([
+    {
+      usernum: "",
+      firstName: "",
+      lastName: "",
+      username: "",
+      email: "",
+      address: "",
+      phone: "",
+      website: "",
+      company: "",
+    },
+  ]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(getURL);
+        setUsers(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h4>{JSON.stringify(users)}</h4>
     </div>
   );
+};
+
+function App() {
+  return <GetUsers />;
 }
 
 export default App;
